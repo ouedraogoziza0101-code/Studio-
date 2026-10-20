@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050b19">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/png" href="fuk-studio-icon.png">
+<link rel="apple-touch-icon" href="fuk-studio-icon.png">
+<meta name="description" content="FUK Studio : ton espace futuriste de création vidéo assistée par IA locale.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>FUK Studio v2 — IA locale et montage bêta</title>
+<style>
+:root{color-scheme:dark;--bg:#050b19;--panel:rgba(9,20,43,.88);--panel2:#0c1b38;--text:#f4f7ff;--muted:#9aaccb;--cyan:#16e6ff;--blue:#287cff;--pink:#fa45ff;--green:#31f5b1;--gold:#ffc45c;--line:rgba(83,145,255,.27);--glow:0 0 24px rgba(22,230,255,.15)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:radial-gradient(ellipse at 68% 0%,#10275a 0,transparent 38%),radial-gradient(ellipse at 95% 45%,#25104c 0,transparent 30%),linear-gradient(145deg,#030713,#071329 60%,#050a18);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(69,132,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(69,132,255,.12) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 80%);z-index:-1}
+header{position:sticky;top:0;z-index:20;max-width:none;margin:0;padding:12px 22px;display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--line);background:rgba(3,9,23,.86);backdrop-filter:blur(18px)}
+.brand{display:flex;align-items:center;gap:10px;min-width:220px}.brand img{width:42px;height:42px;object-fit:cover;border-radius:13px;box-shadow:0 0 20px #16e6ff55}.brandname{font-weight:900;letter-spacing:2px;font-size:17px}.brandtag{color:var(--muted);font-size:11px;margin-top:-3px}.top-search{flex:1;max-width:580px;border:1px solid var(--line);border-radius:14px;background:#07142c;padding:10px 14px;color:var(--muted);min-width:0}.live{margin-left:auto;display:flex;align-items:center;gap:8px;color:#b8ffe7;font-size:12px;white-space:nowrap}.live-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 14px var(--green)}
+aside{position:fixed;left:0;top:67px;bottom:0;width:220px;padding:22px 14px;border-right:1px solid var(--line);background:rgba(3,10,25,.86);backdrop-filter:blur(16px);z-index:10;overflow-y:auto}.nav-title{font-size:10px;color:#6f8bb7;letter-spacing:2px;text-transform:uppercase;padding:0 10px 10px}.navlink{display:flex;align-items:center;gap:12px;padding:12px 13px;margin:4px 0;border:1px solid transparent;border-radius:12px;color:#d9e7ff;text-decoration:none;transition:.2s;font-size:13px}.navlink span{width:21px;text-align:center;font-size:17px}.navlink:hover,.navlink.active{border-color:#278bff;background:linear-gradient(100deg,#0c3e85,#111d4c);box-shadow:0 0 22px #147cff40}.localbox{margin-top:26px;border:1px solid #20d9b4;border-radius:15px;padding:13px;background:linear-gradient(145deg,#073e3b99,#071a2d);font-size:12px;color:#c8fff1}.localbox strong{display:block;margin-bottom:8px;color:var(--green)}
+main{margin:0 0 0 220px;max-width:none;padding:22px clamp(14px,2.2vw,34px) 34px;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:start}
+.hero{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(180px,.7fr);align-items:center;gap:20px;min-height:255px;padding:clamp(20px,3vw,38px);border:1px solid #2354a3;border-radius:24px;overflow:hidden;position:relative;background:radial-gradient(ellipse at 80% 50%,#422477 0,transparent 36%),linear-gradient(110deg,#07152f,#0b1d42 60%,#130d34);box-shadow:var(--glow)}
+.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:4%;top:-40px;border:1px solid #20cfff66;box-shadow:0 0 0 20px #1e65ff10,0 0 0 45px #b62cff0b,0 0 80px #1b95ff44;pointer-events:none}.eyebrow{display:inline-flex;border:1px solid #258aff;border-radius:99px;padding:5px 11px;color:#bceeff;font-size:11px;letter-spacing:.5px;background:#0a2b58}.hero h1{font-size:clamp(30px,4vw,52px);line-height:1.05;letter-spacing:-1.7px;margin:15px 0}.gradient-text{background:linear-gradient(90deg,#fff 0%,#56efff 35%,#d16aff 75%,#ffc55f);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{max-width:620px;color:#bdcde9;margin:0 0 18px}.hero-art{position:relative;z-index:1;min-height:170px;display:grid;place-items:center}.holo{width:min(220px,100%);aspect-ratio:1;border:1px solid #27dfff;border-radius:30px;transform:rotate(-8deg);background:linear-gradient(145deg,#153d7a88,#45115f99);box-shadow:0 0 25px #18dfff77,inset 0 0 35px #287cff55;display:grid;place-items:center;font-size:70px;color:#fff;text-shadow:0 0 20px var(--cyan);position:relative}.holo:before,.holo:after{content:"";position:absolute;inset:15px;border:1px solid #fa45ff88;border-radius:23px;transform:rotate(16deg)}.holo:after{inset:-16px 28px;border-color:#21a9ff99;transform:rotate(35deg);border-radius:18px}.hero-actions{display:flex;flex-wrap:wrap;gap:10px}.primary{background:linear-gradient(100deg,var(--cyan),#4c8cff 50%,var(--pink));color:#041026;border:0;box-shadow:0 0 25px #3e8dff55;font-weight:850}.primary:hover{filter:brightness(1.12);transform:translateY(-1px)}button{border-radius:12px;padding:12px 15px;font:750 13px system-ui;cursor:pointer;transition:transform .2s,filter .2s;border:1px solid #2a5a9d;background:#0b1b38;color:var(--text)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}button:disabled{opacity:.5;cursor:not-allowed;transform:none}.secondary{background:#0a1831;border:1px solid #2b4c7a;color:#dceaff}.hero-chips{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}.chip{border:1px solid #244b80;background:#091a36;border-radius:99px;padding:6px 10px;font-size:11px;color:#cce5ff}
+.card{background:linear-gradient(145deg,rgba(11,25,52,.94),rgba(5,15,34,.96));border:1px solid var(--line);border-radius:18px;padding:17px;min-width:0;box-shadow:0 10px 32px #0002;transition:border-color .2s,transform .2s}.card:hover{border-color:#397dca}.card h2{font-size:16px;letter-spacing:.1px;margin:0 0 13px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:4px;height:18px;border-radius:5px;background:linear-gradient(var(--cyan),var(--pink));box-shadow:0 0 12px #16e6ff77}.model-card{grid-column:2;grid-row:2}.project-card{grid-column:1;grid-row:3}.agents-card{grid-column:1/-1;grid-row:4}.result-card{grid-column:1;grid-row:5}.info-card{grid-column:2;grid-row:3}.editor-card{grid-column:1/-1}
+.status{font-size:12px;line-height:1.5;color:var(--gold);white-space:pre-wrap;margin-top:9px}.status.ok{color:var(--green)}.status.error{color:#ff9baf}.hint,footer{color:var(--muted);font-size:12px;line-height:1.55}.tag{display:inline-block;background:#102b50;color:#91eaff;border:1px solid #1d75bb;border-radius:99px;padding:5px 10px;font-size:11px;margin-bottom:10px}
+label{display:block;font-weight:700;font-size:12px;color:#b9cce9;margin:12px 0 6px}input,select,textarea{width:100%;border:1px solid #29466f;background:#050f22;color:var(--text);border-radius:11px;padding:11px;font:inherit;font-size:13px}input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #16e6ff14}textarea{min-height:92px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.agents{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}.agent{border:1px solid var(--agent-border,#2467b7);background:linear-gradient(145deg,var(--agent-bg,#0d2850),#07142b 85%);border-radius:14px;padding:13px 10px;color:var(--text);text-align:left;cursor:pointer;min-width:0;min-height:132px;transition:.2s;position:relative;overflow:hidden}.agent:before{content:"";position:absolute;inset:0;background:linear-gradient(130deg,#ffffff0b,transparent 45%);pointer-events:none}.agent:hover{transform:translateY(-4px);box-shadow:0 10px 24px #0004}.agent b{display:block;margin:7px 0;font-size:12px}.agent small{display:block;color:#bbcee9;font-size:11px;line-height:1.4}.agent.active{border-color:var(--cyan);box-shadow:0 0 20px #16e6ff2b;background:linear-gradient(145deg,#0b4770,#111c4a)}.agent:nth-child(1){--agent-bg:#47200f;--agent-border:#ff8c37}.agent:nth-child(2){--agent-bg:#111f69;--agent-border:#657bff}.agent:nth-child(3){--agent-bg:#064a3c;--agent-border:#29e7b1}.agent:nth-child(4){--agent-bg:#401550;--agent-border:#f45dff}.agent:nth-child(5){--agent-bg:#06415b;--agent-border:#20dfff}.agent:nth-child(6){--agent-bg:#53380d;--agent-border:#ffc653}.agent:nth-child(7){--agent-bg:#25175b;--agent-border:#a28aff}.agent-icon{font-size:25px;display:block}.buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.buttons button{flex:1}.result{white-space:pre-wrap;line-height:1.65;background:#040d1d;border:1px solid #1d3b65;border-radius:12px;padding:14px;overflow-wrap:anywhere;min-height:120px;font-size:13px}.result:empty:before{content:'Ton résultat apparaîtra ici. Lance un assistant pour commencer.';color:var(--muted)}.pill{font-size:10px;padding:5px 9px;border-radius:99px;background:#102a43;color:#9ef9dd;border:1px solid #1b5d60}.toprow{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.progress{height:6px;background:#162b4b;border-radius:99px;overflow:hidden;margin-top:10px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .2s;box-shadow:0 0 14px var(--cyan)}.warning{border:1px solid #765a2c;background:#2b2114;border-radius:12px;padding:12px;color:#ffe1ac;font-size:12px;line-height:1.6}.status.error{color:#ff9baf}
+footer{margin-left:220px;padding:18px 25px 25px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:1100px){main{grid-template-columns:minmax(0,1fr) 250px}.agents{grid-template-columns:repeat(4,minmax(0,1fr))}.hero h1{font-size:38px}}
+@media(max-width:800px){header{padding:10px 13px;gap:10px}.brand{min-width:0}.brand img{width:36px;height:36px}.brandname{font-size:14px}.brandtag{display:none}.top-search{display:none}.live{font-size:10px}aside{position:sticky;top:61px;width:100%;height:auto;bottom:auto;padding:7px 9px;display:flex;gap:5px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);white-space:nowrap}.nav-title,.localbox{display:none}.navlink{padding:9px 11px;margin:0;flex:0 0 auto;font-size:11px}.navlink span{font-size:14px;width:auto}main{margin:0;padding:14px 10px 25px;grid-template-columns:minmax(0,1fr);gap:12px}.hero{grid-column:1;grid-template-columns:minmax(0,1fr) 110px;gap:8px;min-height:0;padding:20px 15px;border-radius:18px}.hero h1{font-size:clamp(26px,6vw,37px);letter-spacing:-.8px}.hero p{font-size:12px}.hero-art{min-height:100px}.holo{width:100px;border-radius:20px;font-size:38px}.holo:before{inset:8px}.holo:after{inset:-8px 13px}.model-card,.project-card,.agents-card,.result-card,.info-card{grid-column:1;grid-row:auto}.agents{grid-template-columns:repeat(2,minmax(0,1fr))}.agent{min-height:118px}.grid{grid-template-columns:1fr 1fr}.card{padding:14px}footer{margin:0;padding:16px 12px}}
+@media(max-width:420px){.hero{grid-template-columns:minmax(0,1fr)}.hero-art{display:none}.hero h1{font-size:30px}.grid{grid-template-columns:1fr}.agents{grid-template-columns:repeat(2,minmax(0,1fr))}.live{display:none}.brandname{letter-spacing:1px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+.editor-card{grid-column:1/-1}
+#videoCanvas{max-width:100%}
+#exportPreview{background:#020815;border:1px solid var(--line)}
+@media(max-width:760px){.editor-card{grid-column:1/-1}#videoCanvas{max-height:300px}}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img src="fuk-studio-icon.png" alt="Logo FUK Studio" onerror="this.style.display='none'">
+    <div><div class="brandname">FUK <span class="gradient-text">STUDIO</span></div><div class="brandtag">Ton IA. Tes vidéos. Ton futur.</div></div>
+  </div>
+  <div class="top-search" aria-label="Recherche">⌕ &nbsp; Rechercher un assistant, un projet, une fonctionnalité…</div>
+  <div class="live"><span class="live-dot"></span><span>IA locale<br><strong>WebGPU · prête à tester</strong></span></div>
+</header>
+<aside aria-label="Navigation principale">
+  <div class="nav-title">Espace de création</div>
+  <a class="navlink active" href="#accueil"><span>⌂</span>Accueil</a>
+  <a class="navlink" href="#projet"><span>＋</span>Nouveau projet</a>
+  <a class="navlink" href="#resultat"><span>▤</span>Mes résultats</a>
+  <a class="navlink" href="#assistants"><span>✧</span>Assistants IA</a>
+  <a class="navlink" href="#montage"><span>▣</span>Montage vidéo</a>
+  <a class="navlink" href="#moteur"><span>⬡</span>Modèle IA</a>
+  <a class="navlink" href="#infos"><span>⚙</span>À propos</a>
+  <div class="localbox"><strong>⬡ IA LOCALE</strong>✓ Aucun compte IA externe<br>✓ Réponses calculées dans le navigateur<br>✓ Modèle téléchargé une seule fois si mis en cache</div>
+</aside>
+<header class="hero-header" id="accueil" style="display:none"></header>
+<main>
+  <section class="hero" aria-label="Présentation FUK Studio">
+    <div>
+      <span class="eyebrow">✦ FUK STUDIO · VERSION 2 BÊTA</span>
+      <h1>Transforme tes idées en <span class="gradient-text">vidéos incroyables.</span></h1>
+      <p>Une équipe d’assistants coordonnés, un modèle IA local et un premier atelier de montage WebM — selon les capacités de ton téléphone.</p>
+      <div class="hero-chips"><span class="chip">⚡ Création guidée</span><span class="chip">⬡ IA locale</span><span class="chip">◉ Android</span><span class="chip">✧ Pensé pour les créateurs</span></div>
+      <div class="hero-actions"><button class="primary" onclick="document.getElementById('projet').scrollIntoView({behavior:'smooth'})">➤ Commencer un projet&nbsp; →</button><button class="secondary" onclick="document.getElementById('assistants').scrollIntoView({behavior:'smooth'})">Voir les assistants</button></div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><div class="holo">▶</div></div>
+  </section>
+
+<section class="card model-card" id="moteur"><h2>01 · Moteur IA local</h2><label for="model">Modèle local</label><select id="model"><option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B — version compacte (recommandée pour commencer)</option><option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B — plus exigeant en mémoire</option><option value="SmolLM2-360M-Instruct-q0f16-MLC">SmolLM2 360M — très léger, capacités limitées</option></select><div class="buttons"><button id="loadModel">Télécharger et démarrer l'IA</button><button id="unloadModel" class="secondary" disabled>Libérer la mémoire</button></div><div class="progress" aria-label="Progression du chargement"><div id="progressBar"></div></div><p id="progressText" class="hint">Le modèle n’est pas chargé.</p><div id="supportStatus" class="status" role="status" aria-live="polite"></div><p class="hint">Le site doit être servi en HTTPS ; les réponses sont calculées dans ton navigateur avec WebGPU. Le téléchargement initial nécessite Internet et peut consommer beaucoup de données. La compatibilité dépend du téléphone, de Chrome et de sa mémoire graphique.</p></section>
+<section class="card project-card" id="projet"><h2>02 · Nouveau projet vidéo</h2><label for="topic">Sujet de la vidéo</label><textarea id="topic" placeholder="Ex. : 5 idées de business réalistes pour les jeunes en Afrique. Explique simplement et termine par un conseil concret."></textarea><div class="grid"><div><label for="format">Format</label><select id="format"><option>Short vertical 9:16</option><option>YouTube horizontal 16:9</option><option>Carré 1:1</option></select></div><div><label for="duration">Durée</label><select id="duration"><option>30 secondes</option><option selected>60 secondes</option><option>3 minutes</option><option>5 minutes</option><option>10 minutes</option></select></div><div><label for="audience">Public cible</label><input id="audience" value="Jeunes francophones en Afrique"></div><div><label for="style">Style</label><select id="style"><option>dynamique et clair</option><option>documentaire sérieux</option><option>motivant et inspirant</option><option>humoristique</option><option>cinématographique</option></select></div></div><div class="buttons"><button id="createProject" disabled>✨ Créer le dossier vidéo</button><button id="runPipeline" class="secondary" disabled>⚡ Lancer l’équipe coordonnée</button><button id="download" class="secondary">Télécharger le résultat .txt</button></div><div id="projectStatus" class="status" role="status"></div></section>
+<section class="card agents-card" id="assistants"><h2>03 · Tes 7 assistants spécialisés</h2><p class="hint">Choisis une carte, écris ta consigne, puis lance ton assistant.</p><div class="agents" id="agents"><button class="agent active" data-agent="general"><span class="agent-icon">✦</span>🧠<b>FUK Studio central</b><small>Comprend ta demande et coordonne</small></button><button class="agent" data-agent="director"><span class="agent-icon">🎬</span>🎬<b>Réalisateur</b><small>Concept, public et structure</small></button><button class="agent" data-agent="script"><span class="agent-icon">✎</span>✍️<b>Scénariste</b><small>Accroche et script complet</small></button><button class="agent" data-agent="storyboard"><span class="agent-icon">▦</span>🖼️<b>Storyboard</b><small>Découpe les scènes</small></button><button class="agent" data-agent="voice"><span class="agent-icon">≋</span>🎙️<b>Voix off</b><small>Prépare la narration</small></button><button class="agent" data-agent="editor"><span class="agent-icon">▣</span>✂️<b>Monteur</b><small>Plan de montage</small></button><button class="agent" data-agent="review"><span class="agent-icon">⬡</span>✅<b>Contrôle qualité</b><small>Repère les points faibles</small></button></div><label for="prompt">Ta consigne</label><textarea id="prompt" placeholder="Ex. : rends l'accroche plus captivante pendant les 3 premières secondes."></textarea><label for="context">Contexte facultatif</label><textarea id="context" placeholder="Colle un script ou le résultat précédent à améliorer."></textarea><div class="buttons"><button id="runAgent" disabled>Lancer cet assistant</button><button id="copy" class="secondary">Copier le résultat</button></div><div id="agentStatus" class="status" role="status"></div></section>
+<section class="card result-card" id="resultat"><div class="toprow"><h2>04 · Espace de résultat</h2><span class="pill" id="modelBadge">IA non chargée</span></div><div id="result" class="result" aria-live="polite"></div><div class="buttons"><button class="secondary" id="useContext">Utiliser comme contexte</button><button class="secondary" id="clearResult">Effacer</button></div></section>
+
+<section class="card editor-card" id="montage" style="grid-column:1/-1">
+  <h2>05 · Montage vidéo local — bêta</h2>
+  <p class="hint">Importe des photos et/ou des clips depuis ton téléphone. Le navigateur les assemble sur un canevas et tente un export WebM. Les fichiers restent dans cette page ; aucun service IA externe n’est utilisé. Teste d’abord avec 2 petites photos.</p>
+  <label for="mediaFiles">Photos et clips à assembler</label>
+  <input id="mediaFiles" type="file" accept="image/*,video/*" multiple>
+  <div class="grid">
+    <div><label for="sceneSeconds">Durée par photo (secondes)</label><select id="sceneSeconds"><option value="2">2 secondes</option><option value="4" selected>4 secondes</option><option value="6">6 secondes</option></select></div>
+    <div><label for="videoSize">Format de sortie</label><select id="videoSize"><option value="vertical">Vertical 720 × 1280</option><option value="horizontal">Horizontal 1280 × 720</option><option value="square">Carré 720 × 720</option></select></div>
+  </div>
+  <label for="videoCaption">Texte à afficher sur la vidéo (facultatif)</label>
+  <input id="videoCaption" maxlength="140" placeholder="Ex. : 5 idées de business à découvrir">
+  <div class="buttons"><button id="previewMedia" class="secondary">Préparer les médias</button><button id="exportVideo" class="primary" disabled>Créer la vidéo WebM</button></div>
+  <div class="progress"><div id="renderProgress"></div></div>
+  <div id="mediaStatus" class="status" role="status"></div>
+  <div style="margin-top:12px;background:#020815;border:1px solid #1d3b65;border-radius:12px;padding:8px">
+    <canvas id="videoCanvas" width="720" height="1280" style="display:block;width:100%;max-height:420px;object-fit:contain;background:#020815;border-radius:8px"></canvas>
+  </div>
+  <video id="exportPreview" controls playsinline style="display:none;width:100%;margin-top:12px;border-radius:12px"></video>
+  <p id="videoDownloadWrap" class="hint"></p>
+</section>
+
+<section class="card info-card" id="infos"><h2>06 · Transparence IA</h2><div class="warning">Le code de l'application est à toi et le modèle génère ses réponses sur ton appareil, sans API d'un fournisseur d'IA. Cependant, le site et les fichiers du modèle sont téléchargés depuis Internet (CDN et dépôt de modèles). Ce n'est pas un nouveau modèle entraîné par toi. Le moteur IA prépare du texte localement. Le module Montage bêta assemble des photos et clips importés en WebM dans le navigateur ; la voix off, la musique, les sous-titres automatiques et l’export MP4 ne sont pas encore intégrés.</div></section>
+
+</main>
+<footer>
+  <span>♡ <strong>FUK Studio</strong> · L’IA créative au service de tes idées</span>
+  <span>⬡ Modèle local · Selon la compatibilité de ton appareil</span>
+  <span>✦ Fais de tes idées des vidéos.</span>
+</footer>
+<script type="module">
+const $ = id => document.getElementById(id);
+let engine = null;
+let selectedAgent = 'general';
+let lastResult = '';
+let busy = false;
+let loadAttempt = 0;
+let webllm = null;
+
+const roles = {
+  general: 'Tu es FUK Studio, assistant polyvalent francophone et coordinateur d’une équipe de création vidéo. Réponds clairement et concrètement. Ne prétends jamais avoir créé des fichiers médias.',
+  director: 'Tu es le réalisateur de FUK Studio. Construis un brief : objectif, public, promesse, ton, format, rythme et structure. Sois concret.',
+  script: 'Tu es scénariste vidéo francophone. Écris un script avec accroche forte, scènes numérotées, narration, texte à l’écran, transition et appel à l’action. Adapte la durée.',
+  storyboard: 'Tu es spécialiste du storyboard. Découpe le contenu en scènes avec durée, visuel suggéré, mouvement, texte à l’écran et narration. Précise que les visuels sont des suggestions.',
+  voice: 'Tu es spécialiste de voix off. Transforme le texte en narration naturelle à lire à voix haute, avec ponctuation et pauses. N’ajoute pas de faits.',
+  editor: 'Tu es monteur vidéo. Propose une timeline concrète : ordre des plans, durée, transitions, sous-titres, rythme, musique et format. Ne prétends pas avoir exporté de vidéo.',
+  review: 'Tu es contrôleur qualité. Vérifie clarté, cohérence, répétitions, durée, accroche, faits à vérifier, droits des médias et appel à l’action. Propose des corrections précises.'
+};
+
+function status(id, msg, kind = '') {
+  const el = $(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.toggle('ok', kind === 'ok');
+  el.classList.toggle('error', kind === 'error');
+}
+function webgpuOk() {
+  return typeof navigator !== 'undefined' && !!navigator.gpu;
+}
+function setReady(ready) {
+  $('createProject').disabled = !ready || busy;
+  $('runPipeline').disabled = !ready || busy;
+  $('runAgent').disabled = !ready || busy;
+  $('loadModel').disabled = ready || busy;
+  $('unloadModel').disabled = !ready || busy;
+  $('modelBadge').textContent = ready ? 'Modèle local actif' : 'IA non chargée';
+}
+function setBusy(value) {
+  busy = value;
+  const ready = !!engine;
+  $('createProject').disabled = !ready || value;
+  $('runPipeline').disabled = !ready || value;
+  $('runAgent').disabled = !ready || value;
+  $('loadModel').disabled = ready || value;
+  $('unloadModel').disabled = !ready || value;
+  $('download').disabled = value;
+}
+function explainError(error) {
+  const message = error?.message || String(error || 'Erreur inconnue');
+  if (/out of memory|memory|allocation/i.test(message)) {
+    return 'Mémoire insuffisante pour ce modèle. Libère de la mémoire, ferme les autres onglets ou choisis le modèle le plus léger.';
+  }
+  if (/webgpu|gpu|adapter|device/i.test(message)) {
+    return 'Le moteur graphique WebGPU ne fonctionne pas sur ce navigateur ou cet appareil. Essaie Chrome à jour et le modèle le plus léger.';
+  }
+  if (/fetch|network|load failed|failed to fetch/i.test(message)) {
+    return 'Téléchargement impossible. Vérifie Internet, l’espace disponible et réessaie.';
+  }
+  return message;
+}
+
+if (webgpuOk()) {
+  status('supportStatus', 'WebGPU détecté. Le chargement d’un modèle local peut être tenté.', 'ok');
+} else {
+  status('supportStatus', 'WebGPU n’est pas détecté. Mets Chrome à jour ; certains téléphones Android ne prennent pas en charge ce moteur.');
+  $('loadModel').disabled = false;
+}
+
+$('agents').querySelectorAll('.agent').forEach(button => {
+  button.addEventListener('click', () => {
+    $('agents').querySelectorAll('.agent').forEach(item => item.classList.remove('active'));
+    button.classList.add('active');
+    selectedAgent = button.dataset.agent || 'general';
+  });
+});
+
+async function getWebLLM() {
+  if (!webllm) {
+    status('supportStatus', 'Chargement de la bibliothèque IA…');
+    // Load only after the user requests it, so the page can still open if the CDN fails.
+    webllm = await import('https://esm.run/@mlc-ai/web-llm');
+  }
+  return webllm;
+}
+
+$('loadModel').addEventListener('click', async () => {
+  if (busy || engine) return;
+  if (!webgpuOk()) {
+    status('supportStatus', 'Impossible de démarrer : ce navigateur ne fournit pas WebGPU.', 'error');
+    return;
+  }
+  const attempt = ++loadAttempt;
+  const modelId = $('model').value;
+  setBusy(true);
+  $('progressBar').style.width = '0%';
+  $('progressText').textContent = 'Préparation du téléchargement. Le premier chargement peut être volumineux.';
+  status('supportStatus', 'Initialisation du moteur IA local…');
+  try {
+    const lib = await getWebLLM();
+    if (attempt !== loadAttempt) return;
+    const created = await lib.CreateMLCEngine(modelId, {
+      initProgressCallback: report => {
+        if (attempt !== loadAttempt) return;
+        const progress = Math.max(0, Math.min(100, Math.round((report?.progress || 0) * 100)));
+        $('progressBar').style.width = progress + '%';
+        $('progressText').textContent = report?.text || 'Chargement du modèle…';
+        status('supportStatus', report?.text || 'Chargement du modèle…');
+      }
+    });
+    if (attempt !== loadAttempt) {
+      try { await created.unload?.(); } catch {}
+      return;
+    }
+    engine = created;
+    setReady(true);
+    status('supportStatus', 'IA locale prête. Les réponses sont calculées dans ce navigateur.', 'ok');
+    $('progressText').textContent = 'Modèle chargé. Le navigateur peut le conserver en cache.';
+  } catch (error) {
+    engine = null;
+    setReady(false);
+    status('supportStatus', 'Échec du chargement : ' + explainError(error), 'error');
+    $('progressText').textContent = 'Vérifie la connexion, le stockage disponible et la compatibilité WebGPU. Essaie ensuite le modèle le plus léger.';
+  } finally {
+    setBusy(false);
+    if (!engine) $('loadModel').disabled = false;
+  }
+});
+
+$('unloadModel').addEventListener('click', async () => {
+  if (busy || !engine) return;
+  setBusy(true);
+  const oldEngine = engine;
+  engine = null;
+  loadAttempt++;
+  try {
+    if (typeof oldEngine.unload === 'function') await oldEngine.unload();
+    status('supportStatus', 'Mémoire du modèle libérée.', 'ok');
+  } catch (error) {
+    status('supportStatus', 'Le modèle a été désactivé, mais le nettoyage a signalé : ' + explainError(error), 'error');
+  } finally {
+    $('progressBar').style.width = '0%';
+    $('progressText').textContent = 'Le modèle n’est pas chargé.';
+    setBusy(false);
+    setReady(false);
+  }
+});
+
+async function generate(systemPrompt, userPrompt, maxTokens = 1400) {
+  if (!engine) throw new Error('Charge d’abord le modèle IA local.');
+  const response = await engine.chat.completions.create({
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt }
+    ],
+    temperature: 0.7,
+    max_tokens: maxTokens
+  });
+  const content = response?.choices?.[0]?.message?.content;
+  if (!content || !content.trim()) throw new Error('Le modèle n’a pas renvoyé de texte. Réessaie avec une consigne plus courte.');
+  return content.trim();
+}
+function show(text) {
+  lastResult = text;
+  $('result').textContent = text;
+}
+function buildProjectPrompt(topic) {
+  return `Crée un dossier de préproduction vidéo complet en français avec ces sections :
+1. CONCEPT ET PROMESSE
+2. SCRIPT NARRÉ
+3. STORYBOARD scène par scène (durée, visuel suggéré, texte à l’écran, narration)
+4. VOIX OFF PROPRE
+5. PLAN DE MONTAGE
+6. TITRE ET DESCRIPTION
+7. CONTRÔLE QUALITÉ
+Sujet : ${topic}
+Format : ${$('format').value}
+Durée : ${$('duration').value}
+Public : ${$('audience').value.trim() || 'public francophone général'}
+Style : ${$('style').value}
+Adapte le nombre de scènes à la durée. N’invente pas de faits vérifiables et signale ce qui doit être vérifié. Ne prétends pas générer les médias.`;
+}
+
+$('createProject').addEventListener('click', async () => {
+  const topic = $('topic').value.trim();
+  if (!topic) {
+    status('projectStatus', 'Décris d’abord le sujet de ta vidéo.', 'error');
+    $('topic').focus();
+    return;
+  }
+  if (busy) return;
+  setBusy(true);
+  status('projectStatus', 'Création du dossier vidéo en cours. Sur un téléphone, cela peut prendre du temps…');
+  try {
+    const result = await generate('Tu es le chef de production de FUK Studio. Tu rédiges des documents vidéo précis, structurés et utiles en français.', buildProjectPrompt(topic), 2200);
+    show(result);
+    $('context').value = result;
+    status('projectStatus', 'Dossier terminé par le modèle local.', 'ok');
+  } catch (error) {
+    status('projectStatus', explainError(error), 'error');
+  } finally {
+    setBusy(false);
+  }
+});
+
+$('runAgent').addEventListener('click', async () => {
+  const prompt = $('prompt').value.trim();
+  if (!prompt) {
+    status('agentStatus', 'Écris une consigne pour l’assistant.', 'error');
+    $('prompt').focus();
+    return;
+  }
+  if (busy) return;
+  const context = $('context').value.trim();
+  setBusy(true);
+  status('agentStatus', 'Assistant en cours…');
+  try {
+    const userPrompt = (context ? 'Contexte :\n' + context + '\n\n' : '') + 'Consigne :\n' + prompt;
+    const result = await generate(roles[selectedAgent] || roles.general, userPrompt, 1400);
+    show(result);
+    status('agentStatus', 'Assistant terminé.', 'ok');
+  } catch (error) {
+    status('agentStatus', explainError(error), 'error');
+  } finally {
+    setBusy(false);
+  }
+});
+
+
+$('runPipeline').addEventListener('click', async () => {
+  const topic = $('topic').value.trim();
+  if (!topic) {
+    status('projectStatus', 'Décris d’abord le sujet de la vidéo.', 'error');
+    $('topic').focus();
+    return;
+  }
+  if (busy || !engine) return;
+  const brief = buildProjectPrompt(topic);
+  const stages = [
+    ['director', 'ÉTAPE 1/4 — RÉALISATEUR', 'Crée un brief de production concis : promesse, public, angle et structure. Sujet et contraintes :\\n' + brief],
+    ['script', 'ÉTAPE 2/4 — SCÉNARISTE', 'À partir du brief ci-dessous, écris un script vidéo complet, avec accroche, narration, textes à l’écran et appel à l’action.\\n\\nBrief :\\n'],
+    ['storyboard', 'ÉTAPE 3/4 — STORYBOARD', 'Transforme le travail précédent en scènes chronologiques. Pour chaque scène : durée indicative, visuel suggéré, mouvement, texte écran et narration. Ne prétends pas produire les visuels.\\n\\nTravail précédent :\\n'],
+    ['review', 'ÉTAPE 4/4 — CONTRÔLE QUALITÉ', 'Vérifie la cohérence du dossier précédent, les durées, la clarté, les faits à vérifier et les droits des médias. Termine par une version finale structurée.\\n\\nDossier à contrôler :\\n']
+  ];
+  setBusy(true);
+  let shared = '';
+  try {
+    for (const [agent, label, instruction] of stages) {
+      status('projectStatus', label + ' — génération locale en cours…');
+      const input = agent === 'director' ? instruction : instruction + shared;
+      shared = await generate(roles[agent], input, agent === 'review' ? 1500 : 1100);
+    }
+    show(shared);
+    $('context').value = shared;
+    status('projectStatus', 'Pipeline terminé : 4 assistants ont travaillé successivement avec le résultat précédent comme contexte. Relis le résultat avant utilisation.', 'ok');
+  } catch (error) {
+    if (shared) {
+      show(shared + '\\n\\n[Pipeline interrompu : ' + explainError(error) + ']');
+      $('context').value = shared;
+    }
+    status('projectStatus', 'Pipeline interrompu : ' + explainError(error), 'error');
+  } finally {
+    setBusy(false);
+  }
+});
+
+// --- Montage local navigateur (bêta) : photos + clips -> WebM, sans API IA ---
+const mediaInput = $('mediaFiles');
+const canvas = $('videoCanvas');
+const ctx = canvas.getContext('2d');
+let preparedMedia = [];
+let renderedUrl = '';
+let preparing = false;
+
+function releasePrepared() {
+  for (const item of preparedMedia) {
+    if (item.url) URL.revokeObjectURL(item.url);
+    if (item.element?.tagName === 'VIDEO') {
+      item.element.pause();
+      item.element.removeAttribute('src');
+      item.element.load();
+    }
+  }
+  preparedMedia = [];
+}
+function fitCanvas() {
+  const mode = $('videoSize').value;
+  if (mode === 'horizontal') { canvas.width = 1280; canvas.height = 720; }
+  else if (mode === 'square') { canvas.width = 720; canvas.height = 720; }
+  else { canvas.width = 720; canvas.height = 1280; }
+}
+function drawCover(source) {
+  const w = source.videoWidth || source.naturalWidth || source.width || 1;
+  const h = source.videoHeight || source.naturalHeight || source.height || 1;
+  const scale = Math.max(canvas.width / w, canvas.height / h);
+  const sw = canvas.width / scale, sh = canvas.height / scale;
+  const sx = (w - sw) / 2, sy = (h - sh) / 2;
+  ctx.drawImage(source, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+  const caption = $('videoCaption').value.trim();
+  if (caption) {
+    const fontSize = Math.max(24, Math.round(canvas.width * 0.045));
+    ctx.font = `bold ${fontSize}px system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    const maxWidth = canvas.width * 0.86;
+    const words = caption.split(/\s+/);
+    const lines = [];
+    let line = '';
+    for (const word of words) {
+      const test = line ? line + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && line) { lines.push(line); line = word; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+    const lineHeight = fontSize * 1.2;
+    const blockHeight = lines.length * lineHeight + 24;
+    ctx.fillStyle = 'rgba(0,0,0,.62)';
+    ctx.fillRect(canvas.width * .05, canvas.height - blockHeight - canvas.height * .04, canvas.width * .9, blockHeight);
+    ctx.fillStyle = '#ffffff';
+    lines.forEach((text, i) => ctx.fillText(text, canvas.width / 2, canvas.height - canvas.height * .04 - 12 - (lines.length - 1 - i) * lineHeight, maxWidth));
+  }
+}
+function drawPlaceholder(message) {
+  ctx.fillStyle = '#050b19'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#16e6ff'; ctx.font = 'bold 28px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('FUK STUDIO', canvas.width / 2, canvas.height / 2 - 20);
+  ctx.fillStyle = '#dbe8ff'; ctx.font = '20px system-ui';
+  ctx.fillText(message, canvas.width / 2, canvas.height / 2 + 25, canvas.width * .8);
+}
+drawPlaceholder('Importe des photos ou clips');
+
+$('previewMedia').addEventListener('click', async () => {
+  if (preparing) return;
+  const files = Array.from(mediaInput.files || []);
+  if (!files.length) { status('mediaStatus', 'Sélectionne au moins une photo ou une vidéo.', 'error'); return; }
+  preparing = true;
+  $('previewMedia').disabled = true;
+  releasePrepared();
+  fitCanvas();
+  status('mediaStatus', 'Préparation des fichiers locaux…');
+  try {
+    for (const file of files) {
+      if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) continue;
+      const url = URL.createObjectURL(file);
+      if (file.type.startsWith('image/')) {
+        const img = new Image();
+        img.src = url;
+        await new Promise((resolve, reject) => {
+          img.onload = resolve; img.onerror = () => reject(new Error('Impossible de lire une image importée.'));
+        });
+        preparedMedia.push({ type: 'image', element: img, url, name: file.name });
+      } else {
+        const video = document.createElement('video');
+        video.src = url;
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = 'auto';
+        await new Promise((resolve, reject) => {
+          video.onloadedmetadata = resolve;
+          video.onerror = () => reject(new Error('Impossible de lire le clip ' + file.name + '.'));
+        });
+        if (!Number.isFinite(video.duration) || video.duration <= 0) throw new Error('Durée non reconnue pour ' + file.name + '.');
+        preparedMedia.push({ type: 'video', element: video, url, name: file.name, duration: video.duration });
+      }
+    }
+    if (!preparedMedia.length) throw new Error('Aucun fichier image ou vidéo compatible trouvé.');
+    const first = preparedMedia[0];
+    if (first.type === 'video') {
+      first.element.currentTime = 0;
+      await new Promise(resolve => { first.element.onseeked = resolve; setTimeout(resolve, 1500); });
+    }
+    drawCover(first.element);
+    $('exportVideo').disabled = !window.MediaRecorder || !canvas.captureStream;
+    status('mediaStatus', `${preparedMedia.length} média(s) prêt(s). Les clips seront raccourcis à la durée indiquée par scène ; vérifie le résultat avant de le partager.`, 'ok');
+  } catch (error) {
+    status('mediaStatus', 'Préparation échouée : ' + (error.message || error), 'error');
+    $('exportVideo').disabled = true;
+  } finally {
+    preparing = false;
+    $('previewMedia').disabled = false;
+  }
+});
+
+$('videoSize').addEventListener('change', () => {
+  fitCanvas();
+  if (preparedMedia.length) drawCover(preparedMedia[0].element);
+  else drawPlaceholder('Importe des photos ou clips');
+});
+
+$('exportVideo').addEventListener('click', async () => {
+  if (!preparedMedia.length || preparing || !window.MediaRecorder || !canvas.captureStream) {
+    status('mediaStatus', 'Prépare les médias d’abord. Ce navigateur doit aussi prendre en charge MediaRecorder et canvas.captureStream.', 'error');
+    return;
+  }
+  preparing = true;
+  $('exportVideo').disabled = true;
+  $('previewMedia').disabled = true;
+  $('renderProgress').style.width = '0%';
+  $('videoDownloadWrap').textContent = '';
+  if (renderedUrl) { URL.revokeObjectURL(renderedUrl); renderedUrl = ''; }
+  const seconds = Number($('sceneSeconds').value) || 4;
+  let stream;
+  let recorder;
+  const chunks = [];
+  try {
+    fitCanvas();
+    const mimeType = ['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(type => MediaRecorder.isTypeSupported(type));
+    if (!mimeType) throw new Error('Aucun format WebM pris en charge par MediaRecorder sur ce navigateur.');
+    stream = canvas.captureStream(24);
+    recorder = new MediaRecorder(stream, { mimeType });
+    recorder.ondataavailable = event => { if (event.data && event.data.size) chunks.push(event.data); };
+    const stopped = new Promise((resolve, reject) => {
+      recorder.onstop = resolve;
+      recorder.onerror = () => reject(new Error('Le navigateur a interrompu l’enregistrement.'));
+    });
+    recorder.start(500);
+    const total = preparedMedia.length;
+    for (let index = 0; index < total; index++) {
+      const item = preparedMedia[index];
+      status('mediaStatus', `Montage en cours : scène ${index + 1}/${total} — ${item.name}`);
+      if (item.type === 'image') {
+        const start = performance.now();
+        while (performance.now() - start < seconds * 1000) {
+          drawCover(item.element);
+          $('renderProgress').style.width = Math.min(99, ((index + (performance.now() - start) / (seconds * 1000)) / total) * 100) + '%';
+          await new Promise(resolve => requestAnimationFrame(resolve));
+        }
+      } else {
+        const video = item.element;
+        video.currentTime = 0;
+        await new Promise((resolve, reject) => {
+          let finished = false;
+          const finish = () => { if (!finished) { finished = true; resolve(); } };
+          video.onseeked = finish;
+          video.onerror = () => reject(new Error('Erreur de lecture du clip ' + item.name));
+          const timer = setTimeout(finish, 2000);
+          video.play().then(() => {
+            const start = performance.now();
+            const frame = () => {
+              if (finished) return;
+              drawCover(video);
+              const elapsed = (performance.now() - start) / 1000;
+              $('renderProgress').style.width = Math.min(99, ((index + Math.min(1, elapsed / seconds)) / total) * 100) + '%';
+              if (elapsed >= seconds || video.ended) {
+                clearTimeout(timer); video.pause(); finish(); return;
+              }
+              requestAnimationFrame(frame);
+            };
+            requestAnimationFrame(frame);
+          }).catch(() => reject(new Error('Lecture impossible du clip ' + item.name)));
+        });
+        drawCover(video);
+      }
+    }
+    recorder.stop();
+    await stopped;
+    const blob = new Blob(chunks, { type: mimeType });
+    if (!blob.size) throw new Error('Le fichier vidéo créé est vide.');
+    renderedUrl = URL.createObjectURL(blob);
+    const preview = $('exportPreview');
+    preview.src = renderedUrl;
+    preview.style.display = 'block';
+    const link = document.createElement('a');
+    link.href = renderedUrl;
+    link.download = 'fuk-studio-montage.webm';
+    link.textContent = 'Télécharger le montage WebM';
+    link.style.color = '#62eaff';
+    link.style.fontWeight = 'bold';
+    link.style.display = 'inline-block';
+    link.style.padding = '8px 0';
+    $('videoDownloadWrap').replaceChildren(link);
+    $('renderProgress').style.width = '100%';
+    status('mediaStatus', 'Export WebM créé par le navigateur. Vérifie la lecture et le son (ce prototype n’ajoute pas encore de piste audio) avant de l’utiliser.', 'ok');
+  } catch (error) {
+    try { if (recorder && recorder.state !== 'inactive') recorder.stop(); } catch {}
+    status('mediaStatus', 'Export interrompu : ' + (error.message || error) + '. Réduis la taille ou le nombre de fichiers et réessaie.', 'error');
+  } finally {
+    if (stream) stream.getTracks().forEach(track => track.stop());
+    preparing = false;
+    $('exportVideo').disabled = !preparedMedia.length;
+    $('previewMedia').disabled = false;
+  }
+});
+
+window.addEventListener('pagehide', () => {
+  releasePrepared();
+  if (renderedUrl) URL.revokeObjectURL(renderedUrl);
+});
+
+$('download').addEventListener('click', () => {
+  if (!lastResult) {
+    status('projectStatus', 'Aucun résultat à télécharger. Crée d’abord un dossier ou lance un assistant.', 'error');
+    return;
+  }
+  try {
+    const url = URL.createObjectURL(new Blob([lastResult], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'fuk-studio-projet-video.txt';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+    status('projectStatus', 'Téléchargement du fichier texte lancé.', 'ok');
+  } catch (error) {
+    status('projectStatus', 'Téléchargement impossible : ' + explainError(error), 'error');
+  }
+});
+
+$('copy').addEventListener('click', async () => {
+  if (!lastResult) {
+    status('agentStatus', 'Aucun résultat à copier.', 'error');
+    return;
+  }
+  try {
+    if (!navigator.clipboard?.writeText) throw new Error('Presse-papiers non disponible dans ce contexte.');
+    await navigator.clipboard.writeText(lastResult);
+    status('agentStatus', 'Résultat copié.', 'ok');
+  } catch {
+    status('agentStatus', 'La copie automatique est bloquée. Sélectionne le texte du résultat et copie-le manuellement.', 'error');
+  }
+});
+
+$('useContext').addEventListener('click', () => {
+  if (!lastResult) {
+    status('agentStatus', 'Aucun résultat à utiliser comme contexte.', 'error');
+    return;
+  }
+  $('context').value = lastResult;
+  status('agentStatus', 'Résultat ajouté au contexte.', 'ok');
+});
+$('clearResult').addEventListener('click', () => {
+  show('');
+  status('agentStatus', 'Résultat effacé.');
+});
+
+setReady(false);
+</script>
+<script>
+document.querySelectorAll('.navlink').forEach(link => link.addEventListener('click', () => {
+  document.querySelectorAll('.navlink').forEach(item => item.classList.remove('active'));
+  link.classList.add('active');
+}));
+</script>
+</body>
+</html>
